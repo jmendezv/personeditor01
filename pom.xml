@@ -30,10 +30,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.23</version>
         </dependency>
+        <!-- Per sobre d'aquesta versio cal compilar amb JDK 9+ -->
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
-            <version>11.0.3</version>
+            <version>8.40.18</version>
         </dependency>
         <dependency>
             <groupId>no.tornado</groupId>
