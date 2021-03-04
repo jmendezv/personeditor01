@@ -6,7 +6,6 @@ import com.example.demo.model.PersonModel
 import javafx.application.Platform
 import javafx.collections.ObservableList
 import javafx.geometry.Pos
-import javafx.scene.control.TreeItem
 import javafx.scene.input.KeyCombination
 import javafx.scene.layout.BorderPane
 import tornadofx.*
@@ -17,7 +16,6 @@ class PersonEditor : View("Person Editor") {
     private val persons: ObservableList<Person>
     private val model: PersonModel = PersonModel(Person())
     private val controller: PersonController by inject()
-    var targetCrumb: TreeItem<String>? = null
 
     init {
         persons = controller.persons()
