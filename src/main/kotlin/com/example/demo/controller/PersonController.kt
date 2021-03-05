@@ -1,6 +1,7 @@
 package com.example.demo.controller
 
 import com.example.demo.database.PersonDao
+import com.example.demo.database.PersonEntity
 import com.example.demo.model.Person
 import com.example.demo.utils.Utils.toEntity
 import tornadofx.*
@@ -13,8 +14,8 @@ class PersonController : Controller() {
         personDao.update(person.toEntity())
     }
 
-    fun save(person: Person) {
-        personDao.save(person.toEntity())
+    fun save(person: Person) : PersonEntity {
+        return personDao.save(person.toEntity())
     }
 
     fun delete(person: Person) {

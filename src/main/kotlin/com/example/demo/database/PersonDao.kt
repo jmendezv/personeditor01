@@ -8,12 +8,23 @@ object PersonDao {
 
     private val connection = Database.connection
 
-    fun save (person: PersonEntity) {
+    private fun getLast(): PersonEntity {
+        var last: PersonEntity? = null
+        val resultSet = connection.createStatement().executeQuery("SELECT * FROM person p ORDER BY id DESC")
+        if (resultSet.next()) last = PersonEntity(
+            resultSet.getInt("id"),
+            resultSet.getString("name"),
+            resultSet.getString("title"))
+        return last!!
+    }
+
+    fun save (person: PersonEntity): PersonEntity {
         val preparedStatement = connection.prepareStatement("INSERT INTO person(name, title) VALUES (?, ?)")
         preparedStatement.setString(1, person.name)
         preparedStatement.setString(2, person.title)
         preparedStatement.executeUpdate()
         preparedStatement.close()
+        return getLast()
     }
 
     fun readAll(): List<PersonEntity> {

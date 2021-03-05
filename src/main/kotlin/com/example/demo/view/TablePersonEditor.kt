@@ -1,6 +1,7 @@
 package com.example.demo.view
 
 import com.example.demo.controller.PersonController
+import com.example.demo.database.toPerson
 import com.example.demo.model.Person
 import javafx.application.Platform
 import javafx.collections.ObservableList
@@ -28,7 +29,8 @@ class TablePersonEditor : View("Person Editor") {
 //                        }
 //                        separator()
                         item("Add", KeyCombination.valueOf("Shortcut+A")).action {
-                            persons.add(Person())
+//                            model.commit()
+                            save(Person(name = "New", title = "New"))
                         }
                         item("Quit", KeyCombination.valueOf("Shortcut+Q")).action {
                             Platform.exit()
@@ -69,6 +71,9 @@ class TablePersonEditor : View("Person Editor") {
                 buttonbar {
                     button("COMMIT").setOnAction {
                         model.commit()
+                        model.items.forEach {
+                            if (it.value.isDirty) {}
+                        }
                     }
                     button("ROLLBACK").setOnAction {
                         model.rollback()
@@ -84,17 +89,23 @@ class TablePersonEditor : View("Person Editor") {
     }
 
     private fun update(person: Person) {
-        controller.update(person)
-        infoNotification(messages["person_editor"], messages["el_registro_se_ha_actualizado_correctamente"], Pos.CENTER)
-
+        if (person.id > 0) {
+            controller.update(person)
+            infoNotification(
+                messages["person_editor"],
+                messages["el_registro_se_ha_actualizado_correctamente"],
+                Pos.CENTER
+            )
+        } else {
+            // save new record???
+            infoNotification(messages["person_editor"], messages["no_hay_nada_que_actualizar"], Pos.CENTER)
+        }
     }
 
     private fun save(person: Person) {
-        controller.save(person)
-        persons.add(person)
-        persons.sortBy {
-            it.name
-        }
+        val record = controller.save(person)
+        persons.add(record.toPerson())
+//        persons.sortBy { it.name }
         infoNotification(
             messages["person_editor"],
             messages["el_registro_se_ha_guardado_satisfactoriamente"],
