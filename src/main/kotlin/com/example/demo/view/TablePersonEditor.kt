@@ -65,6 +65,7 @@ class TablePersonEditor : View("Person Editor") {
                     enableDirtyTracking()
                     model = editModel
 
+
                 }
             }
             bottom {
