@@ -64,17 +64,18 @@ class TablePersonEditor : View("Person Editor") {
                     enableCellEditing()
                     enableDirtyTracking()
                     model = editModel
-
-
                 }
             }
             bottom {
                 buttonbar {
                     button("COMMIT").setOnAction {
-                        model.commit()
                         model.items.forEach {
-                            if (it.value.isDirty) {}
+                            if (it.value.isDirty) {
+                                update(it.key)
+                                //println(it.key)
+                            }
                         }
+                        model.commit()
                     }
                     button("ROLLBACK").setOnAction {
                         model.rollback()
@@ -94,9 +95,8 @@ class TablePersonEditor : View("Person Editor") {
             controller.update(person)
             infoNotification(
                 messages["person_editor"],
-                messages["el_registro_se_ha_actualizado_correctamente"],
-                Pos.CENTER
-            )
+                """${person}: ${messages["el_registro_se_ha_actualizado_correctamente"]}""",
+                Pos.CENTER)
         } else {
             // save new record???
             infoNotification(messages["person_editor"], messages["no_hay_nada_que_actualizar"], Pos.CENTER)
@@ -109,9 +109,8 @@ class TablePersonEditor : View("Person Editor") {
 //        persons.sortBy { it.name }
         infoNotification(
             messages["person_editor"],
-            messages["el_registro_se_ha_guardado_satisfactoriamente"],
-            Pos.CENTER
-        )
+            """${person}: ${messages["el_registro_se_ha_guardado_satisfactoriamente"]}""",
+            Pos.CENTER)
     }
 
     private fun delete(person: Person): Unit {
@@ -123,15 +122,13 @@ class TablePersonEditor : View("Person Editor") {
                 information(
                     title = messages["person_editor"],
                     header = messages["el_registro_se_ha_eliminado_correctamente"],
-                    content = """${person.name} ${messages["se_ha_marcado_como_borrado"]}"""
-                )
+                    content = """${person.name} ${messages["se_ha_marcado_como_borrado"]}""")
             }
         } else {
             infoNotification(
                 messages["person_editor"],
                 messages["el_registro_no_esta_presente_en_la_tabla"],
-                Pos.CENTER
-            )
+                Pos.CENTER)
         }
     }
 

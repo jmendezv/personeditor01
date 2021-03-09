@@ -14,6 +14,10 @@ class Person(id: Int = 0, name: String? = null, title: String? = null) {
 
     val titleProperty: SimpleStringProperty = SimpleStringProperty(this, "title", title)
     var title: String by titleProperty
+
+    override fun toString(): String {
+        return "$id $name $title"
+    }
 }
 
 class PersonModel(person: Person) : ItemViewModel<Person>(person) {
